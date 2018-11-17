@@ -1,0 +1,32 @@
+<script type="application/javascript">
+    var SCROLLING_SPEED = 2;
+    var TOP_TIMEOUT = 8000;
+    var BOTTOM_TIMEOUT = 8000;
+
+    setTimeout(startScrolling, 500);
+    function startScrolling() {
+        window.scrollTo(0, 0);
+        setTimeout(scroll, TOP_TIMEOUT);
+    }
+    function scroll() {
+        var lastY = 0;
+        var id = 0;
+        id = setInterval(() => {
+            window.scrollBy(0, 1);
+            if (lastY == document.body.scrollTop) { // reached bottom
+                clearInterval(id);
+                setTimeout(startScrolling, BOTTOM_TIMEOUT);
+            }
+            lastY = document.body.scrollTop;
+        }, 100 / SCROLLING_SPEED);
+    }
+</script>
+<style type="text/css">
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        overflow-y: hidden;
+    }
+</style>
