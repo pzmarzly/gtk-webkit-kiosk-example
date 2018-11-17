@@ -1,0 +1,10 @@
+#!/bin/sh
+while true; do
+    killall -9 unclutter 2>/dev/null;
+    killall -9 xset 2>/dev/null;
+    killall -9 kiosk-miarka 2>/dev/null;
+    killall -9 xrandr 2>/dev/null;
+    killall -9 i3wm 2>/dev/null;
+    rm -rf /home/pi/.cache;
+    i3wm
+done;

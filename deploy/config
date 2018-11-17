@@ -1,0 +1,10 @@
+# i3 config file (v4)
+font pango:monospace 8
+workspace_layout tabbed
+new_window 1pixel
+exec --no-startup-id sh -c "while xrandr >/dev/null 2>&1; do sleep 5; done"
+exec --no-startup-id sh -c "sleep 15 && ~/kiosk-miarka/target/debug/kiosk-miarka"
+exec --no-startup-id sh -c "xset s noblank"
+exec --no-startup-id sh -c "xset s off"
+exec --no-startup-id sh -c "xset -dpms"
+exec --no-startup-id sh -c "unclutter -idle 0.1 -root"
