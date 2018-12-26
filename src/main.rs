@@ -7,10 +7,10 @@ mod miarka;
 use gtk::prelude::*;
 use gtk::{Label, Orientation, Window, WindowType};
 use miarka::ZastepstwaIKomunikaty;
-use std::sync::mpsc::{channel, Receiver, Sender};
+use std::sync::mpsc::{channel, Receiver};
 use std::thread::{sleep, spawn};
 use std::time::Duration;
-use webkit2gtk::{SettingsExt, WebContext, WebInspectorExt, WebView, WebViewExt};
+use webkit2gtk::{WebContext, WebView, WebViewExt};
 
 fn main() {
     gtk::init().unwrap();
