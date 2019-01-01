@@ -2,10 +2,12 @@
 name = "kiosk-miarka"
 version = "0.1.0"
 authors = ["Paweł Zmarzły <pawo2500@gmail.com>"]
+edition = "2018"
 
 [dependencies]
 reqwest = "0.9.5"
 webkit2gtk = "0.5.1"
+cairo-rs = "0.5.0"
 
 [dependencies.gtk]
 version = "0.5.0"

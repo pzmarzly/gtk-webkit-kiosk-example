@@ -2,15 +2,13 @@ use std::error::Error;
 use std::io;
 use std::str::FromStr;
 
-pub const FETCH_URI: &'static str = "http://1lo.zory.pl/zas/";
+pub const FETCH_URI: &'static str = "http://1lo.zory.pl/zastepstwa/index.php";
 const FETCH_PAGE1_START: &'static str = "<h3>KOMUNIKATY DYREKCJI:</h3><br />";
 const FETCH_PAGE1_END: &'static str = "<a name=\"zast\"></a>";
 const FETCH_PAGE2_START: &'static str =
     "<div class=\"zastepstwa-container\" data-snap-ignore=\"true\">";
 const FETCH_PAGE2_END: &'static str =
     "<SMALL>Przygotowano za pomocą programu firmy <A HREF=\"http://www.vulcan.edu.pl/\" >VULCAN</A></SMALL>";
-
-const AUTOSCROLL: &'static str = include_str!("autoscroll.html");
 
 #[derive(Debug, Clone)]
 pub struct ZastepstwaIKomunikaty(pub String, pub String);
@@ -42,12 +40,12 @@ impl ZastepstwaIKomunikaty {
     }
     pub fn komunikaty(&self) -> String {
         format!(
-            "{}{}{}",
-            AUTOSCROLL, "<style type=\"text/css\">.zktitle { display: block; color: red; } body { font-size: 13px; }</style>", self.0
+            "{}{}",
+            "<style type=\"text/css\">.zktitle { display: block; color: red; } body { font-size: 13px; }</style>", self.0
         )
     }
     pub fn zastepstwa(&self) -> String {
-        format!("{}{}</HTML>", AUTOSCROLL, self.1)
+        format!("{}</HTML>", self.1)
     }
 }
 
