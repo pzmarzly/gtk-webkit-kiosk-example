@@ -70,16 +70,12 @@ fn main() {
             }
         }
         while let Ok(ptr) = page_screenshot1_rx.try_recv() {
-            let surface = ptr.load(Ordering::Relaxed);
-            let surface = unsafe { &*surface };
-            img1.set_from_surface(Some(surface));
+            img1.set_from_surface(Some(ptr));
             webview_zastepstwa.set_visible(false);
             img1.set_visible(true);
         }
         while let Ok(ptr) = page_screenshot2_rx.try_recv() {
-            let surface = ptr.load(Ordering::Relaxed);
-            let surface = unsafe { &*surface };
-            img2.set_from_surface(Some(surface));
+            img2.set_from_surface(Some(ptr));
             webview_komunikaty.set_visible(false);
             img2.set_visible(true);
         }
@@ -115,7 +111,7 @@ fn make_webview() -> WebView {
     webview
 }
 
-fn render(wv: WebView, img: Image, content: String, pstx: Sender<AtomicPtr<Surface>>) {
+fn render(wv: WebView, img: Image, content: String, pstx: Sender<Surface>) {
     img.set_visible(false);
     wv.set_visible(true);
     wv.load_html(&content, None);
@@ -123,16 +119,18 @@ fn render(wv: WebView, img: Image, content: String, pstx: Sender<AtomicPtr<Surfa
     wv.connect_load_changed(move |wv, ev| {
         if ev == LoadEvent::Finished {
             let pstx = pstx.clone();
+            let img = img.clone();
             wv.get_snapshot(
                 SnapshotRegion::FullDocument,
                 SnapshotOptions::NONE,
                 None,
                 move |res| {
                     let pstx = pstx.clone();
-                    if let Ok(mut surface) = res {
-                        let ptr = AtomicPtr::new(&mut surface);
-                        pstx.send(ptr).unwrap();
-                        std::thread::sleep(Duration::from_secs(15));
+                    if let Ok(surface) = res {
+                        img.set_from_surface(Some(&surface));
+                        // let ptr = AtomicPtr::new(&mut surface);
+                        // pstx.send(surface).unwrap();
+                        // std::thread::sleep(Duration::from_secs(15));
                     }
                 },
             );
